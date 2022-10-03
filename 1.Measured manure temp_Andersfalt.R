@@ -25,7 +25,14 @@ temp<-as.data.frame(cbind(unique(temp$Date),temp0.5,temp1.5,temp2.5,temp.air$XTE
 colnames(temp)[c(1,5)]<-c("Date","temp.air")
 
 temp$Date<-as.Date(temp$Date,"%Y-%m-%d")
+rownames(temp)<-c(1:355)
+#Add depth data to
+temp$depth<-NA
+temp$depth[c(1,36,103,131,146,179,216,249,268)]<-c(61,162,400,400,400,400,130,52,49)
+temp$depth<-na_interpolation(temp$depth)
 
+#Draw the figure
+par(mar=c(4,5,4,5))
 plot(temp[,1],temp[,2],ylim=c(-10,30)
      ,type="l",col="black",lwd=2
      ,xlab="Date (2020 Sept - 2021 Sept)"
@@ -39,4 +46,7 @@ legend("topleft",c("Air temperature"
                    ,"Manure temperature at 2.5m")
        ,col=c("grey","black","blue","red")
        ,lty=1,lwd=2,bty="n")
-
+lines(temp[,1],(temp$depth-100)/10,lty=2)
+axis(side=4,at=c(-10,0,10,20,30)
+     ,labels = c(0,100,200,300,400))
+mtext("Manure depth (cm)", side = 4,line=2.5)
