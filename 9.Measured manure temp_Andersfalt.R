@@ -31,11 +31,15 @@ temp$depth<-NA
 temp$depth[c(1,36,103,131,146,179,216,249,268)]<-c(61,162,400,400,400,400,130,52,49)
 temp$depth<-na_interpolation(temp$depth)
 
+#Remove data after July 4, 2021 
+#because it looks like the thermocouples are in air. 
+temp<-temp[c(-298:-355),]
+
 #Draw the figure
 par(mar=c(4,5,4,5))
 plot(temp[,1],temp[,2],ylim=c(-10,30)
      ,type="l",col="black",lwd=2
-     ,xlab="Date (2020 Sept - 2021 Sept)"
+     ,xlab="Date (2020 Sept - 2021 Jul.)"
      ,ylab="Temperature (°C)") #0.5m
 lines(temp[,1],temp[,3],col="blue",lwd=2) #1.5m
 lines(temp[,1],temp[,4],col="red",lwd=2) #2.5m
