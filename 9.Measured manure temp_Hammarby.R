@@ -1,13 +1,13 @@
 library(imputeTS) # for NA interpolation
 library(lubridate)
 #Deal with the manure temperature
-temp.cover<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/manure temp Hammarby_cover.csv",header=T)
-temp.no<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/manure temp Hammarby_nocover.csv",header=T)
+temp.cover<-read.csv("Input/manure temp Hammarby_cover.csv",header=T)
+temp.no<-read.csv("Input/manure temp Hammarby_nocover.csv",header=T)
 #The cover was installed on June 11, 2020 to Nov. 10, 2020
 temp.cover<-temp.cover[c(1:146),c(2:9,13)]
 temp.no<-temp.no[c(1:146),c(2:9,13)]
 #Air temperature
-temp.air<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/Air temp Hammarby.csv",header=T)
+temp.air<-read.csv("Input/Air temp Hammarby.csv",header=T)
 # move air temperature to cover 
 temp.cover$temp.air<-temp.air$XTEMP[4:149]
 

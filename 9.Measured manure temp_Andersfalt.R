@@ -2,9 +2,9 @@
 library(imputeTS) # for NA interpolation
 library(lubridate)
 #Deal with the manure temperature
-temp<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/manure temp Andersfalt.csv",header=T)
+temp<-read.csv("Input/manure temp Andersfalt.csv",header=T)
 #Air temperature
-temp.air<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/Air temp Andersfalt.csv",header=T)
+temp.air<-read.csv("Input/Air temp Andersfalt.csv",header=T)
 # #Give data, and time first
 time<-strsplit(temp$Time,"\\s")
 time<-as.data.frame(matrix(unlist(time),ncol=2,byrow=TRUE))
