@@ -15,12 +15,12 @@ for (i in 1:d.length) {
   cc <- min(Envir.daily$cloud[i],1) #cloud clover
   precip.d <- ifelse(submodels == 1, 
                      (rain[i] + melt.act[i])/100, Envir.daily$precip[i]/1000)
-  if (submodels == 1) {
-    source("3.2. Alpha.s_adjustment.R",echo = F)
-    snow <- snow.p[i]
-  } else {
-    snow <- 0
-  }
+  
+  #Add snow cover submodels
+  source("3.2. Alpha.s_adjustment.R",echo = F)
+  snow <- snow.p[i]
+   
+  
   RH6 <- Envir.daily$RH.6[i]
   RH15 <- Envir.daily$RH.15[i]
 
@@ -43,23 +43,21 @@ for (i in 1:d.length) {
                       M.temp.depth,In.M.temp,alpha.s)
   print(paste("Sequence",i,"And Manure temp",Avg.M.temp.d))
 
-  source("5.1. Manure volume removal.R",echo = F)
+  # enthalpy will change drastically during removal duration and on the first day after removal
+  source("5.1. Manure volume removal.R",echo = F) 
   
   #Save the new temperatures
   ini.M.Temp <- Final.M.Temp
   ini.S.Temp <- S.Temp[,288]
 }
+
 endtime <- Sys.time()
 print(endtime - starttime)
 
+#dump the first year which is used to stablize the model. 
 Output <- Output[(d.length - 364):d.length,]
-result <- "C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 3_Sweden/3. Results/"
-if (submodels == 1) {
-  #Shade/output to an excel file
-  write.csv(Output,paste(result,Location,"/with shade/"
-                         ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
-} else {
-  #Without shade/output to an excel file
-  write.csv(Output,paste(result,Location,"/original/"
-                         ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
-}
+
+#output to an excel file
+write.csv(Output,paste("Output/",Location,"/",
+                       Location,"_",test,".csv",sep = ""),row.names = FALSE)
+

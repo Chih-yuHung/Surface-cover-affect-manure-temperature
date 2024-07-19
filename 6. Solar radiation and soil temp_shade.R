@@ -13,7 +13,6 @@ sin.alpha <- pmax((cos(deg2rad(L))*cos(deg2rad(declination.s))
              *sin(deg2rad(declination.s))),0)                   # sunlight degree
 
 #This's a part to calculate shadow area due to the tank wall, it's not in Rennie, 2017
-if (submodels == 1) {
 wall.h <- Htank-M.depth                              # the wall height above manure surface, m
 cot.alpha <- (1-sin.alpha^2)^(1/2)/sin.alpha
 cos.theta <- (wall.h*cot.alpha/2)/ri                 # the angle in the circle-circle intersection, a numeric
@@ -29,14 +28,9 @@ Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar bean radiation (W
 Sd <- ifelse(sin.alpha>0,0.3*(1-tau^m)*Eb*sin.alpha,0) # Diffusive radiation (wh/m2)
 Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
 q.net.rad <- alpha.s*light.d*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
-              #apply shade coefficient  
-} else {
-m <- ifelse(sin.alpha>0,Pa/(101325*sin.alpha),0)       # Optical air mass number
-Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar bean radiation (Wh/m2)
-Sd <- ifelse(sin.alpha>0,0.3*(1-tau^m)*Eb*sin.alpha,0) # Diffusive radiation (wh/m2)
-Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
-q.net.rad <- alpha.s*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
-}
+
+#NEED TO CONSIDER THE COVER EFFECT HERE!!
+
 
 #Relative humidity from measured data
 #Rh estimated based on RH6 and RH15 with T.hour
@@ -124,6 +118,7 @@ for (j in 1:288) {
 }
 
 Evap.depth.d <- sum(E*T.delta)/rho.w/Au #Incorporate daily evaporation, depth together
+#The effect of snow on evaporation. 
 if (snow > 0) {
   Evap.depth.d <- Evap.depth.d * max(1 - (63.369 * exp(-0.307 * T.air)/100),0.4)
   #emperical model,Meira Neto, A.A et al., 2020  exponential equation in Fig 1 c. 
