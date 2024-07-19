@@ -4,9 +4,9 @@ library(dplyr)
 library(hydroGOF) #NSE 
 #Sweden project
 #To compare my simulation result to the measured data
-result <- "C:/Dropbox/AAFC/Project 3_Sweden/3. Results/"
+result <- "Results/"
 #output to an excel file
-#Envir.daily <- read.csv(paste("input/daily env input_",Location,".csv",sep = ""),header = T)
+Envir.daily <- read.csv(paste("input/daily env input_",Location,".csv",sep = ""),header = T)
 temp <- ((Envir.daily$AirTmax1 + Envir.daily$AirTmin1)/2)[731:1095] #Air Temp.avg
 
 #observed data

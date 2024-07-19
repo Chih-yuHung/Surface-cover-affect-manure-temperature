@@ -8,7 +8,7 @@
 library(lubridate)
 
 #force the simulation length = observation
-obs.n <- ifelse(Location == "OR", 303, 312)
+obs.n <- ifelse(Location == "VA", 303, 312)
 obs <- obs[1:obs.n,]
 sim.og <- sim.og[1:obs.n,]
 sim.re <- sim.re[1:obs.n,]

@@ -33,4 +33,4 @@ legend("bottomleft",c("Air temperature"
 lines(temp.cover$Date,((temp.cover$Depth*100)*(1/5)-10),lty=2)
 axis(side=4,at=c(-10,0,10,20,30)
      ,labels = c(0,50,100,150,200))
-mtext("Manure depth (cm)", side = 4,line=2.5)
+mtext("Manure depth (cm)", side = 4,line=2.5) 
