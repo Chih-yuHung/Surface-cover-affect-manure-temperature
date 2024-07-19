@@ -57,7 +57,14 @@ print(endtime - starttime)
 #dump the first year which is used to stablize the model. 
 Output <- Output[(d.length - 364):d.length,]
 
+
+
 #output to an excel file
+if (submodel == 1) {
 write.csv(Output,paste("Output/",Location,"/",
                        Location,"_",test,".csv",sep = ""),row.names = FALSE)
-
+ 
+} else (
+write.csv(Output,paste("Output/",Location,"/",
+                         Location,"_",test,".csv",sep = ""),row.names = FALSE)
+)

@@ -30,6 +30,11 @@ Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
 q.net.rad <- alpha.s*light.d*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
 
 #NEED TO CONSIDER THE COVER EFFECT HERE!!
+if (submodel == 1){
+  
+  
+} 
+
 
 
 #Relative humidity from measured data
