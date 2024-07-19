@@ -1,7 +1,7 @@
 library(REdaS); library(xlsx); library(beepr) ;library(dplyr); library(imputeTS)
 
 
-parameters <- read.csv(paste("input/",Location,"/",Location,"_",test,".csv",
+parameters <- read.csv(paste("input/",Location,"_",test,".csv",
                              sep = ""),header = T)
 #This file has all adjustable parameters that may influence our results. 
 start.date <- as.character(as.Date(parameters[1,3],format = "%m/%d/%Y"))  

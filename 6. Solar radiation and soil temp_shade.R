@@ -122,8 +122,12 @@ for (j in 1:288) {
   }
 }
 
+<<<<<<< HEAD
+Evap.depth.d <- sum(E*T.delta)/rho.w/Au #Incorporate  daily evaporation, depth together
+=======
 Evap.depth.d <- sum(E*T.delta)/rho.w/Au #Incorporate daily evaporation, depth together
 #The effect of snow on evaporation. 
+>>>>>>> 87fd36e277477d5b0839f0df4f9b95281aef0c3c
 if (snow > 0) {
   Evap.depth.d <- Evap.depth.d * max(1 - (63.369 * exp(-0.307 * T.air)/100),0.4)
   #emperical model,Meira Neto, A.A et al., 2020  exponential equation in Fig 1 c. 
@@ -131,3 +135,4 @@ if (snow > 0) {
 }
 
 Evap.depth.d <- max(Evap.depth.d,0)
+

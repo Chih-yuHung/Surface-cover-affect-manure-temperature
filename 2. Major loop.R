@@ -56,6 +56,18 @@ print(endtime - starttime)
 
 #dump the first year which is used to stablize the model. 
 Output <- Output[(d.length - 364):d.length,]
+<<<<<<< HEAD
+result <- "Results/"
+if (submodels == 1) {
+  #Shade/output to an excel file
+  write.csv(Output,paste(result,Location,"/with shade/"
+                         ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
+} else {
+  #Without shade/output to an excel file
+  write.csv(Output,paste(result,Location,"/original/"
+                         ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
+}
+=======
 
 
 
@@ -63,8 +75,13 @@ Output <- Output[(d.length - 364):d.length,]
 if (submodel == 1) {
 write.csv(Output,paste("Output/",Location,"/",
                        Location,"_",test,".csv",sep = ""),row.names = FALSE)
+<<<<<<< HEAD
  
 } else (
 write.csv(Output,paste("Output/",Location,"/",
                          Location,"_",test,".csv",sep = ""),row.names = FALSE)
 )
+=======
+
+>>>>>>> 87fd36e277477d5b0839f0df4f9b95281aef0c3c
+>>>>>>> ba4846dcfb796cf82a41a47cc08bfa0afdf97e41
