@@ -53,7 +53,7 @@ endtime <- Sys.time()
 print(endtime - starttime)
 
 Output <- Output[(d.length - 364):d.length,]
-result <- "C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 3_Sweden/3. Results/"
+result <- "Results/"
 if (submodels == 1) {
   #Shade/output to an excel file
   write.csv(Output,paste(result,Location,"/with shade/"

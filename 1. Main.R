@@ -10,6 +10,3 @@ source("2. Major loop.R",echo = F)
 }
 source("Result comparison.R",echo = F)
 source("stat output.R", echo =  F)
-
-
-
