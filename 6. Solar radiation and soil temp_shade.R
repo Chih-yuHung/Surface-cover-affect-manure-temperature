@@ -12,7 +12,8 @@ sin.alpha <- pmax((cos(deg2rad(L))*cos(deg2rad(declination.s))
              *cos(deg2rad(H))+sin(deg2rad(L))
              *sin(deg2rad(declination.s))),0)                   # sunlight degree
 
-#This's a part to calculate shadow area due to the tank wall, it's not in Rennie, 2017
+#This is a part to calculate shadow area due to the tank wall and cover, it's not in Rennie, 2017
+if (submodels == 0) {
 wall.h <- Htank-M.depth                              # the wall height above manure surface, m
 cot.alpha <- (1-sin.alpha^2)^(1/2)/sin.alpha
 cos.theta <- (wall.h*cot.alpha/2)/ri                 # the angle in the circle-circle intersection, a numeric
@@ -28,13 +29,17 @@ Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar bean radiation (W
 Sd <- ifelse(sin.alpha>0,0.3*(1-tau^m)*Eb*sin.alpha,0) # Diffusive radiation (wh/m2)
 Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
 q.net.rad <- alpha.s*light.d*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
-
-#NEED TO CONSIDER THE COVER EFFECT HERE!!
-if (submodel == 1){
-  
-  
-} 
-
+} else {
+shadow <- Au
+light.d <- 1-(shadow/Au)                             # the percentage that sunlight on the surface, between 0-1
+light.d[is.nan(light.d)] <- 1
+##End for shadow calculation
+m  <- ifelse(sin.alpha>0,Pa/(101325*sin.alpha),0)      # Optical air mass number
+Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar bean radiation (Wh/m2)
+Sd <- ifelse(sin.alpha>0,0.3*(1-tau^m)*Eb*sin.alpha,0) # Diffusive radiation (wh/m2)
+Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
+q.net.rad <- alpha.s*light.d*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
+}
 
 
 #Relative humidity from measured data
@@ -80,7 +85,7 @@ soil.c <- T.delta/(den.s*(Au*dep.s))#constant of soil
 
 #Thermal conductivity/specific heat correction
 #Manure temperature calculation
-#soil temperature cacultation,
+#soil temperature calculation,
 #The process is to calculate 5 mins thermal conductivity 
 #and then 5 mins Manure temperature from soil temp. and pre. manure temp
 #soil temp was from pre. soil temp and manure temp.
@@ -122,12 +127,8 @@ for (j in 1:288) {
   }
 }
 
-<<<<<<< HEAD
-Evap.depth.d <- sum(E*T.delta)/rho.w/Au #Incorporate  daily evaporation, depth together
-=======
 Evap.depth.d <- sum(E*T.delta)/rho.w/Au #Incorporate daily evaporation, depth together
 #The effect of snow on evaporation. 
->>>>>>> 87fd36e277477d5b0839f0df4f9b95281aef0c3c
 if (snow > 0) {
   Evap.depth.d <- Evap.depth.d * max(1 - (63.369 * exp(-0.307 * T.air)/100),0.4)
   #emperical model,Meira Neto, A.A et al., 2020  exponential equation in Fig 1 c. 
@@ -135,4 +136,3 @@ if (snow > 0) {
 }
 
 Evap.depth.d <- max(Evap.depth.d,0)
-

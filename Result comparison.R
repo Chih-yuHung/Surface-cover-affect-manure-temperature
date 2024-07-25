@@ -10,8 +10,8 @@ Envir.daily <- read.csv(paste("input/daily env input_",Location,".csv",sep = "")
 temp <- ((Envir.daily$AirTmax1 + Envir.daily$AirTmin1)/2)[731:1095] #Air Temp.avg
 
 #observed data
-obs <- read.csv(paste(result,Location,"/",Location,".daily.csv",sep = ""),header = T) 
-depth.m <- read.csv(paste(result,Location,"/",Location,".depth.csv",sep = ""),header = T)
+obs <- read.csv(paste("Input/manure temp_",Location,".csv",sep = ""),header = T) 
+depth.m <- read.csv(paste("Input/manure temp_",Location,".csv",sep = ""),header = T)
 
 #simulated data before calibration
 sim.og <- read.csv(paste(result,Location,"/original/",
@@ -256,6 +256,3 @@ dev.off()
 #     ,width = 12, height = 24,emfPlus = FALSE, family = "Calibri")
 # plotoutput()
 # dev.off()
-
-
-
