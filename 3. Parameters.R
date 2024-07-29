@@ -110,3 +110,10 @@ Teten.Icec <- parameters[5,29]        # degree C
 #Water constant
 f.point <- parameters[1,30]  #freezing point
 t.point <- parameters[2,30]  #thawing point
+
+#Cover parameter
+cover <- parameter[2, 31] #the precentage of cover
+if(cover > 1) {
+  stop("Cover is larger than 100%")
+  }
+

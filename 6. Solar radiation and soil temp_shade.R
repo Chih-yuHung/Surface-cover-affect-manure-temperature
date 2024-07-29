@@ -20,14 +20,12 @@ deg.theta <- acos(cos.theta)
 Intersection.h <- ri*(1-cos.theta^2)^(1/2)           # the height of triangle in the circle-circle intersection, m
 shadow <- pi*ri^2-(4*pi*ri^2*deg.theta/(2*pi)
         -4*(wall.h*cot.alpha)/2*Intersection.h/2)  # shadow area, m2
-#Cover effect on shadow
-if (Location == "VA") {
-  shadow <- shadow * 1
-} else if (Location == "VAC") {
-  shadow <- shadow * 0.5
-} else {
-  shadow <- Au
-}
+
+
+#To calculate enthalpy.
+source("6.2 Cover shadow calculation.R",echo = F)
+
+
 light.d <- 1-(shadow/Au)                             # the percentage that sunlight on the surface, between 0-1
 light.d[is.nan(light.d)] <- 1
 ##End for shadow calculation
