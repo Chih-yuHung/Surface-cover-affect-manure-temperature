@@ -1,6 +1,6 @@
 #Set location, initial date and end time; date origin in R, 1970-1-1
 
-test <- 0  #the test number
+test <- 1  #the test number
 Location <- "VA" #VA, VAC, or LA
 
 for (submodels in 0:1) { #1 with cover, 0 is without cover

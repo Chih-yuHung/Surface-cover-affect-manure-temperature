@@ -22,7 +22,7 @@ shadow <- pi*ri^2-(4*pi*ri^2*deg.theta/(2*pi)
         -4*(wall.h*cot.alpha)/2*Intersection.h/2)  # shadow area, m2
 
 
-#To calculate enthalpy.
+#To calculate shadow from cover
 source("6.2 Cover shadow calculation.R",echo = F)
 
 

@@ -13,7 +13,7 @@ In.M.temp <- Avg.Barn.temp + Barn.temp.amp*sin(2*pi/365*T.day + Temp.cost) # Inc
  
 #daily depth change
 depthchange.d <- if (i %% mixing.day == 0) {
-  sum(M.daily[(i - mixing.day + 1):i], na.rm = TRUE) + precip.d - Evap.depth.d
+  sum(M.daily[(i - mixing.day + 1):i]) + precip.d - Evap.depth.d
   } else {
     precip.d - Evap.depth.d
     }

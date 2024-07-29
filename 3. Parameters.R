@@ -52,13 +52,13 @@ M.factor <- na.omit(parameters[,11])   #manure input adjust factor
 f.day <- parameters[1,12]     #days in feed barn
 M.daily <- c()
 for (cycle in 1:length(M.factor)) {
-M.daily.temp <- c(rep(M.storage*M.factor[cycle]/365/Au,f.day),washout,0)
-M.daily <- c(M.daily,M.daily.temp)
+  M.daily.temp <- c(rep(M.storage*M.factor[cycle]/365/Au,f.day),washout,0)
+  M.daily <- c(M.daily,M.daily.temp) 
+  }
 if (length(M.daily) < 365) {
   M.daily <- rep(M.daily,2)
- }
+  }
  M.daily <- rep(M.daily[1:365],4)
-}
  
 Freeboard <- parameters[1,13]   #freeboard, m
 sludge <- parameters[1,14]      #m
@@ -112,8 +112,5 @@ f.point <- parameters[1,30]  #freezing point
 t.point <- parameters[2,30]  #thawing point
 
 #Cover parameter
-cover <- parameter[2, 31] #the precentage of cover
-if(cover > 1) {
-  stop("Cover is larger than 100%")
-  }
+cover <- parameters[2, 32] #the percentage of cover
 
