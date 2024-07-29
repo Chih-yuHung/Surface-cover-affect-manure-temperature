@@ -45,7 +45,7 @@ Final.M.Temp <- ifelse(Enthalpy.V < E.272, f.point*Enthalpy.V/E.272,
                             f.point + (Enthalpy.V - E.272)/fusion))
 
 # mix manure after removal, removal is assumed to occur at the end of day. 
-if  (i %% mixing.day == 0) {
+if (i %% mixing.day == 0) {
   mix.range <- floor(min(30,round(30*(100/sum(M.volume.new)),0))/2) #the cells to be mixed
   outlet.cell <- which.min(abs(mix.place - seq(M.depth,0,length.out = 30))) #outlet place
   mix.cells <- c((outlet.cell - mix.range):(outlet.cell + mix.range))

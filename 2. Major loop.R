@@ -13,14 +13,12 @@ for (i in 1:d.length) {
   wind.v <- Envir.daily$wind[i]   #daily wind speed at 2m, m/h
   wind.f <- (2.36 + 1.67*wind.v)*Au^(-0.05)
   cc <- min(Envir.daily$cloud[i],1) #cloud clover
-  precip.d <- ifelse(submodels == 1, 
-                     (rain[i] + melt.act[i])/100, Envir.daily$precip[i]/1000)
+  precip.d <- (rain[i] + melt.act[i])/100
   
-  #Add snow cover submodels
+  #Add snow cover 
   source("3.2. Alpha.s_adjustment.R",echo = F)
   snow <- snow.p[i]
    
-  
   RH6 <- Envir.daily$RH.6[i]
   RH15 <- Envir.daily$RH.15[i]
 
@@ -56,32 +54,12 @@ print(endtime - starttime)
 
 #dump the first year which is used to stablize the model. 
 Output <- Output[(d.length - 364):d.length,]
-<<<<<<< HEAD
 result <- "Results/"
-if (submodels == 1) {
-  #Shade/output to an excel file
-  write.csv(Output,paste(result,Location,"/with shade/"
-                         ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
-} else {
-  #Without shade/output to an excel file
-  write.csv(Output,paste(result,Location,"/original/"
-                         ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
-}
-=======
+write.csv(Output,paste(result,Location,"/original/"
+                       ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
 
 
 
 #output to an excel file
-if (submodel == 1) {
 write.csv(Output,paste("Output/",Location,"/",
                        Location,"_",test,".csv",sep = ""),row.names = FALSE)
-<<<<<<< HEAD
- 
-} else (
-write.csv(Output,paste("Output/",Location,"/",
-                         Location,"_",test,".csv",sep = ""),row.names = FALSE)
-)
-=======
-
->>>>>>> 87fd36e277477d5b0839f0df4f9b95281aef0c3c
->>>>>>> ba4846dcfb796cf82a41a47cc08bfa0afdf97e41

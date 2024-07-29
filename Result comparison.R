@@ -6,7 +6,7 @@ library(hydroGOF) #NSE
 #To compare my simulation result to the measured data
 result <- "Results/"
 #output to an excel file
-Envir.daily <- read.csv(paste("input/daily env input_",Location,".csv",sep = ""),header = T)
+Envir.daily <- read.csv(paste("Input/daily env input_",Location,".csv",sep = ""),header = T)
 temp <- ((Envir.daily$AirTmax1 + Envir.daily$AirTmin1)/2)[731:1095] #Air Temp.avg
 
 #observed data

@@ -1,7 +1,7 @@
 library(REdaS); library(xlsx); library(beepr) ;library(dplyr); library(imputeTS)
 
 
-parameters <- read.csv(paste("input/",Location,"_",test,".csv",
+parameters <- read.csv(paste("Input/",Location,"/",Location,"_",test,".csv",
                              sep = ""),header = T)
 #This file has all adjustable parameters that may influence our results. 
 start.date <- as.character(as.Date(parameters[1,3],format = "%m/%d/%Y"))  
@@ -18,17 +18,20 @@ for (i in (length(removal.start)/4 + 1):length(removal.start)) {
 }
 
 #Environmental input
-Envir.daily <- read.csv(paste("input/daily env input_",Location,".csv",sep = ""),header = T)
+if(Location == "VAC"){
+  Envir.daily <- read.csv("Input/daily env input_VA.csv",header = T)
+} else {
+  Envir.daily <- read.csv(paste("Input/daily env input_",Location,".csv",sep = ""),header = T)
+}
 #To produce an extra year for balance soil temperature
 Envir.daily <- Envir.daily[c(1:365,1:1095),]
 d.length <- nrow(Envir.daily)
 #initial manure temp
-ini.M.Temp <- read.csv("input/Initial M temp.csv",header = T)[,1]#change to vector
+ini.M.Temp <- read.csv("Input/Initial M temp.csv",header = T)[,1]#change to vector
 
-if (submodels == 1) {
 #obtain snow accumulation, cm
 source("3.1. snow depth.R", echo = FALSE)
-}
+
 
 mixing.day <- as.integer(parameters[1,7])
 mix.place <- parameters[2,7] #it's the pipe height from the bottom (m)
@@ -40,13 +43,9 @@ Au <- ri^2*pi                  #tank area, m2
 Tank.v <- Au*Htank             #Total tank volume, m3
 
 #Annual manure input
-if (submodels == 0) {
-M.storage <- parameters[1,10]
-M.daily <- rep(M.storage/365/Au,d.length)
-} else {
 M.storage <- parameters[1,10]  
 washout <- rep(parameters[2,10] * parameters[3,10] / 1000 / Au / 2,2) 
-#convert to depth m, the number in parameter is pig amount, 70 kg pig-1,  
+#convert to depth m, the number in parameter is pig amount, 70 kg pig^-1,  
 
 #a vector to know the daily manure input
 M.factor <- na.omit(parameters[,11])   #manure input adjust factor
@@ -55,7 +54,6 @@ M.daily <- c()
 for (cycle in 1:length(M.factor)) {
 M.daily.temp <- c(rep(M.storage*M.factor[cycle]/365/Au,f.day),washout,0)
 M.daily <- c(M.daily,M.daily.temp)
-  }
 if (length(M.daily) < 365) {
   M.daily <- rep(M.daily,2)
  }
@@ -93,7 +91,7 @@ ks <- parameters[1,26]      #soil thermal conductivity,W/mk,
                             #Saturated Clay = 1.58, Dry clay = 0.25, 
                             #Saturated sand = 2.2,Dry sand = 0.3,Oke, 1988
 annualT.K <- annualT + 273.15                                   #soil temp at K
-ini.S.Temp <- read.csv("input/Initial S Temp.csv",header = T)   
+ini.S.Temp <- read.csv("Input/Initial S Temp.csv",header = T)   
 ini.S.Temp[300,1] <- annualT.K
 ini.S.Temp <- na_interpolation(ini.S.Temp,option = "linear")#initial soil temp was assumed to annual air
 ini.S.Temp <- as.vector(ini.S.Temp[1:300,])
@@ -112,4 +110,3 @@ Teten.Icec <- parameters[5,29]        # degree C
 #Water constant
 f.point <- parameters[1,30]  #freezing point
 t.point <- parameters[2,30]  #thawing point
-  

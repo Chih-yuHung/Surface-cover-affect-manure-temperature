@@ -1,5 +1,5 @@
-#This's part to adjust alpha.s 
-#I assumed that the snow would only presence on a day of precepitation, i.e no accumulation 
+#This is part to adjust alpha.s 
+#I assumed that the snow would only presence on a day of precipitation, i.e no accumulation 
 #The snow is form when the temperature is below 0
 if (snow.p[i] > 0) {
   albedo <- (0.9280*snow.p[i]/(0.3152 + snow.p[i])) #Perovich et al. 2007

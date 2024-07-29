@@ -32,5 +32,3 @@ for (i in 2:d.length) {
 snow.p <- ifelse(snow.p < 0, 0, snow.p) #snow pack depth on surface
 melt.act <- ifelse((lag(snow.p) - snow.p) <= 0 | is.na(lag(snow.p) - snow.p),
                    0,lag(snow.p) - snow.p) # actual melted snow depth (cm)
-
-
