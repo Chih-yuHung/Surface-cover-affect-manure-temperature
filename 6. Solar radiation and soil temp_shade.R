@@ -14,7 +14,7 @@ sin.alpha <- pmax((cos(deg2rad(L))*cos(deg2rad(declination.s))
 
 #This is a part to calculate shadow area due to the tank wall and cover, it's not in Rennie, 2017
 wall.h <- Htank-M.depth                              # the wall height above manure surface, m
-cot.alpha <- (1-sin.alpha^2)^(1/2)/sin.alpha
+cot.alpha <- ((1-sin.alpha^2)^(1/2))/sin.alpha
 cos.theta <- (wall.h*cot.alpha/2)/ri                 # the angle in the circle-circle intersection, a numeric
 deg.theta <- acos(cos.theta)
 Intersection.h <- ri*(1-cos.theta^2)^(1/2)           # the height of triangle in the circle-circle intersection, m
@@ -84,12 +84,17 @@ soil.c <- T.delta/(den.s*(Au*dep.s))#constant of soil
 #and then 5 mins Manure temperature from soil temp. and pre. manure temp
 #soil temp was from pre. soil temp and manure temp.
 #use the Manure temp in previous 5 mins and calculate thermal conductivity
-Cp <- c(1:288)#Specific heat of manure, two values, frozen or liquid 
+Cp <- c(1:288) #Specific heat of manure, two values, frozen or liquid 
 T.conductivity <- matrix(ncol=288,nrow=30) # Conductivity
 delta.T.evap <- c(1:288) #delta T-evap
 delta.T.radevap <- c(1:288)   #delta T-rad+evap
 WVPD <- c(1:288)
 E <- c(1:288)
+
+for (j in 1:288) {
+    T.conductivity[,j]<-ifelse(M.Temp[,j-1]>=t.point|M.Temp[,j-1]<f.point,k.m/C.pm,k.m/C.pm.fusion)  
+  }
+
 
 for (j in 1:288) {
   if (j == 1) {

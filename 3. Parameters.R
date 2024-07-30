@@ -112,5 +112,8 @@ f.point <- parameters[1,30]  #freezing point
 t.point <- parameters[2,30]  #thawing point
 
 #Cover parameter
-cover <- parameters[2, 32] #the percentage of cover
+cover <- parameters[1, 32] #the percentage of cover
+if(cover > 1) {
+  stop("Cover is larger than 100%")
+}
 

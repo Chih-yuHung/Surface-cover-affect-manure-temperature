@@ -2,9 +2,9 @@
 library(imputeTS) # for NA interpolation
 library(lubridate)
 #Deal with the manure temperature
-temp<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/manure temp Andersfalt.csv",header=T)
+temp<-read.csv("Input/manure temp_LA.csv",header=T)
 #Air temperature
-temp.air<-read.csv("C:/Users/hungc/OneDrive - AGR-AGR/AAFC/Project 9_Effect of cover on manure T/3. result/Air temp Andersfalt.csv",header=T)
+temp.air<-read.csv("Input/Air temp_LA.csv",header=T)
 # #Give data, and time first
 time<-strsplit(temp$Time,"\\s")
 time<-as.data.frame(matrix(unlist(time),ncol=2,byrow=TRUE))
@@ -35,13 +35,20 @@ temp$depth<-na_interpolation(temp$depth)
 #Remove data after July 4, 2021 
 #because it looks like the thermocouples are in air. 
 temp<-temp[c(-298:-355),]
-
+temp <- temp %>%
+  mutate(DATUM = Date) %>%
+  separate(DATUM, into = c("Year", "Month", "Day"),sep = "-")
+temp$newdate <- strptime(as.Date(temp$Date), "%Y-%m-%d")
+temp$newdate <- format(temp$newdate, "%h")
+  
 #Draw the figure
 par(mar=c(4,5,4,5))
 plot(temp[,1],temp[,2],ylim=c(-10,30)
      ,type="l",col="black",lwd=2
      ,xlab="Date (2020 Sept - 2021 Jul.)"
-     ,ylab="Temperature (°C)") #0.5m
+     ,ylab="Temperature (°C)"
+     ,xaxt="n") #0.5m
+axis.Date(1, at = seq(as.Date("2020-09-11"), as.Date("2021-07-04"), by = "2 month"))
 lines(temp[,1],temp[,3],col="blue",lwd=2) #1.5m
 lines(temp[,1],temp[,4],col="red",lwd=2) #2.5m
 lines(temp[,1],temp[,5],col="grey",lwd=2) #air
