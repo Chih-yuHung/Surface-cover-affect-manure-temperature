@@ -1,7 +1,7 @@
 library(REdaS); library(xlsx); library(beepr) ;library(dplyr); library(imputeTS)
 
 
-parameters <- read.csv(paste("input/",Location,"_",test,".csv",
+parameters <- read.csv(paste("input/",Location,"/",Location,"_",test,".csv",
                              sep = ""),header = T)
 #This file has all adjustable parameters that may influence our results. 
 start.date <- as.character(as.Date(parameters[1,3],format = "%m/%d/%Y"))  
@@ -25,10 +25,10 @@ d.length <- nrow(Envir.daily)
 #initial manure temp
 ini.M.Temp <- read.csv("input/Initial M temp.csv",header = T)[,1]#change to vector
 
-if (submodels == 1) {
+
 #obtain snow accumulation, cm
 source("3.1. snow depth.R", echo = FALSE)
-}
+
 
 mixing.day <- as.integer(parameters[1,7])
 mix.place <- parameters[2,7] #it's the pipe height from the bottom (m)
@@ -40,10 +40,7 @@ Au <- ri^2*pi                  #tank area, m2
 Tank.v <- Au*Htank             #Total tank volume, m3
 
 #Annual manure input
-if (submodels == 0) {
-M.storage <- parameters[1,10]
-M.daily <- rep(M.storage/365/Au,d.length)
-} else {
+
 M.storage <- parameters[1,10]  
 washout <- rep(parameters[2,10] * parameters[3,10] / 1000 / Au / 2,2) 
 #convert to depth m, the number in parameter is pig amount, 70 kg pig-1,  
@@ -60,7 +57,7 @@ if (length(M.daily) < 365) {
   M.daily <- rep(M.daily,2)
  }
  M.daily <- rep(M.daily[1:365],4)
-}
+
  
 Freeboard <- parameters[1,13]   #freeboard, m
 sludge <- parameters[1,14]      #m
@@ -113,3 +110,8 @@ Teten.Icec <- parameters[5,29]        # degree C
 f.point <- parameters[1,30]  #freezing point
 t.point <- parameters[2,30]  #thawing point
   
+#Cover parameter
+cover <- parameters[1, 32] #the percentage of cover
+if(cover > 1) {
+  stop("Cover is larger than 100%")
+}
