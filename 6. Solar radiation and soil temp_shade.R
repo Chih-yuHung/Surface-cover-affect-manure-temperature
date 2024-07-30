@@ -19,8 +19,8 @@ cos.theta <- (wall.h*cot.alpha/2)/ri                 # the angle in the circle-c
 deg.theta <- acos(cos.theta)
 Intersection.h <- ri*(1-cos.theta^2)^(1/2)           # the height of triangle in the circle-circle intersection, m
 shadow <- pi*ri^2-(4*pi*ri^2*deg.theta/(2*pi)
-        -4*(wall.h*cot.alpha)/2*Intersection.h/2)  # shadow area, m2
-
+                   -4*(wall.h*cot.alpha)/2*Intersection.h/2)  # shadow area, m2
+shadow[is.nan(shadow)] <- Au
 
 #To calculate shadow from cover
 source("6.2 Cover shadow calculation.R",echo = F)
@@ -28,12 +28,14 @@ source("6.2 Cover shadow calculation.R",echo = F)
 
 light.d <- 1-(shadow/Au)                             # the percentage that sunlight on the surface, between 0-1
 light.d[is.nan(light.d)] <- 1
+
 ##End for shadow calculation
 m  <- ifelse(sin.alpha>0,Pa/(101325*sin.alpha),0)      # Optical air mass number
 Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar bean radiation (Wh/m2)
 Sd <- ifelse(sin.alpha>0,0.3*(1-tau^m)*Eb*sin.alpha,0) # Diffusive radiation (wh/m2)
 Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
 q.net.rad <- alpha.s*light.d*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
+
 
 
 #Relative humidity from measured data
@@ -84,17 +86,12 @@ soil.c <- T.delta/(den.s*(Au*dep.s))#constant of soil
 #and then 5 mins Manure temperature from soil temp. and pre. manure temp
 #soil temp was from pre. soil temp and manure temp.
 #use the Manure temp in previous 5 mins and calculate thermal conductivity
-Cp <- c(1:288) #Specific heat of manure, two values, frozen or liquid 
+Cp <- c(1:288)#Specific heat of manure, two values, frozen or liquid 
 T.conductivity <- matrix(ncol=288,nrow=30) # Conductivity
 delta.T.evap <- c(1:288) #delta T-evap
 delta.T.radevap <- c(1:288)   #delta T-rad+evap
 WVPD <- c(1:288)
 E <- c(1:288)
-
-for (j in 1:288) {
-    T.conductivity[,j]<-ifelse(M.Temp[,j-1]>=t.point|M.Temp[,j-1]<f.point,k.m/C.pm,k.m/C.pm.fusion)  
-  }
-
 
 for (j in 1:288) {
   if (j == 1) {
@@ -130,10 +127,11 @@ Evap.depth.d <- sum(E*T.delta)/rho.w/Au #Incorporate daily evaporation, depth to
 #The effect of snow on evaporation. 
 if (snow > 0) {
   Evap.depth.d <- Evap.depth.d * max(1 - (63.369 * exp(-0.307 * T.air)/100),0.4)
-  #emperical model,Meira Neto, A.A et al., 2020 exponential equation in Fig 1 c. 
+  #emperical model,Meira Neto, A.A et al., 2020  exponential equation in Fig 1 c. 
   #https://doi.org/10.1038/s43247-020-00056-9
 }
 
-
 Evap.depth.d <- max(Evap.depth.d,0)
+
+#The effect of cover on evaporation
 
