@@ -1,10 +1,7 @@
-library(devEMF)
-library(tidyverse)
-library(dplyr)
-library(hydroGOF) #NSE 
+library(devEMF);library(tidyverse);library(dplyr);library(hydroGOF) #NSE 
+
 #Sweden project
 #To compare my simulation result to the measured data
-result <- "Results/"
 #output to an excel file
 Envir.daily <- read.csv(paste("Input/daily env input_",Location,".csv",sep = ""),header = T)
 temp <- ((Envir.daily$AirTmax1 + Envir.daily$AirTmin1)/2)[731:1095] #Air Temp.avg
@@ -13,37 +10,35 @@ temp <- ((Envir.daily$AirTmax1 + Envir.daily$AirTmin1)/2)[731:1095] #Air Temp.av
 obs <- read.csv(paste("Input/manure temp_",Location,".csv",sep = ""),header = T) 
 depth.m <- read.csv(paste("Input/manure temp_",Location,".csv",sep = ""),header = T)
 
-#simulated data before calibration
-sim.og <- read.csv(paste(result,Location,"/original/",
-                                Location,"_",test,".csv",sep = ""),header = T) 
-SR.og <- sim.og$total.radiation/12/277.77778
-SR.og.cum <- cumsum(SR.og)
-Eva.og.cum <- cumsum(sim.og$Evaporation.cm)
-#simulated data after calibration and modification
-sim.re <- read.csv(paste(result,Location,"/with shade/",
-                             Location,"_",test,".csv",sep = ""),header = T)
-SR <- sim.re$total.radiation/12/277.77778
+#simulated data
+sim <- read.csv(paste("Results/",Location,"/original/",Location,"_",test,".csv",sep = ""),header = T) 
+SR <- sim$total.radiation/12/277.77778
 SR.cum <- cumsum(SR)
-Eva.cum <- cumsum(sim.re$Evaporation.cm)
-sim.re$snow.depth[sim.re$snow.depth == 0] <- NA 
+Eva.cum <- cumsum(sim$Evaporation.cm)
+sim$snow.depth[sim$snow.depth == 0] <- NA 
 #obtain removal days
 removal.a <- removal.start[1:4] - as.numeric(as.Date(start.date)) + 1
 
 #two data.frame for the days in VA and OR sites
-OR.date <- data.frame(day = c(1,62,124,185,246,305,366), 
+LA.date <- data.frame(day = c(1,62,124,185,246,305,366), 
                       date = c("1/5/20","1/7","1/9","1/11",
                                "1/1/21","1/3","1/5"))
 VA.date <- data.frame(day = c(1,45,106,167,228,286,348),
                       date = c("18/6/20","1/8","1/10","1/12",
                                "1/2/21","1/4","1/6"))
+VAC.date <- data.frame(day = c(1,45,106,167,228,286,348),
+                       date = c("18/6/20","1/8","1/10","1/12",
+                                "1/2/21","1/4","1/6"))
 
-
-if (Location == "OR") {
-  plot.day <- OR.date$day
-  plot.date <- OR.date$date
-} else {
+if (Location == "LA") {
+  plot.day <- LA.date$day
+  plot.date <- LA.date$date
+} else if (Location == "VA") {
   plot.day <- VA.date$day
   plot.date <- VA.date$date
+} else {
+  plot.day <- VAC.date$day
+  plot.date <- VAC.date$date
 }
 
 #cols <- c("#211d0c","#8077ff","#fcab42","#42bd42")
@@ -198,13 +193,13 @@ legend(1,3250,
 text(5,3300, paste(Location," tank",sep = ""), cex = 3,pos = 4)
 
 #D. Evaporation, snow cover, precipitation 
-plot(sim.re$snow.depth/10,
+plot(sim$snow.depth/10,
      type = "l",
      lty = "dashed",xaxt = "n",
      yaxt = "n",xlab = "" , 
      ylab = "", lwd = 2,
      ylim = c(0,5),yaxs = "i")
-lines(sim.re$Precipitation.cm,
+lines(sim$Precipitation.cm,
       lwd = 2,col = cols[1])
 lines(Eva.og.cum/20,
       lwd = 2, col = cols[4],
@@ -236,23 +231,23 @@ text(5,4.7, paste(Location," tank",sep = ""), cex = 3,pos = 4)
 
 
 #Measurement data
-png(file = paste(result,Location,"/figures/png/",Location,"_measurement_202405.png",sep = "")
+png(file = paste("Results/",Location,"/figures/png/",Location,"_measurement_202405.png",sep = "")
     ,width = 1000, height = 600)
 plot.measurement()
 dev.off()
 
-emf(file = paste(result,Location,"/figures/",Location,"_measurement_202405.emf",sep = "")
+emf(file = paste("Results/",Location,"/figures/",Location,"_measurement_202405.emf",sep = "")
     ,width = 10, height = 6,emfPlus = FALSE, family = "Calibri")
 plot.measurement()
 dev.off()
 
 #Simulated data
-png(file = paste(result,Location,"/figures/png/",Location,"_",test,"202405.png",sep = "")
+png(file = paste("Results/",Location,"/figures/png/",Location,"_",test,"202405.png",sep = "")
     ,width = 1200, height = 2400)
 plotoutput()
 dev.off()
 
-# emf(file = paste(result,Location,"/figures/",Location,"_",test,".emf",sep = "")
+# emf(file = paste("Results/",Location,"/figures/",Location,"_",test,".emf",sep = "")
 #     ,width = 12, height = 24,emfPlus = FALSE, family = "Calibri")
 # plotoutput()
 # dev.off()

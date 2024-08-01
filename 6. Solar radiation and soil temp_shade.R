@@ -31,12 +31,10 @@ light.d[is.nan(light.d)] <- 1
 
 ##End for shadow calculation
 m  <- ifelse(sin.alpha>0,Pa/(101325*sin.alpha),0)      # Optical air mass number
-Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar bean radiation (Wh/m2)
+Sb <- ifelse(sin.alpha>0, Eb*(tau^m)*sin.alpha,0)      # solar beam radiation (Wh/m2)
 Sd <- ifelse(sin.alpha>0,0.3*(1-tau^m)*Eb*sin.alpha,0) # Diffusive radiation (wh/m2)
 Sr.total <- sum(Sb,Sd)                                 # Total solar radiation
 q.net.rad <- alpha.s*light.d*((Sb+Sd)/Sr.total)*((SR*1000*1000)/T.delta) #Net solar radiation
-
-
 
 #Relative humidity from measured data
 #Rh estimated based on RH6 and RH15 with T.hour
@@ -134,4 +132,6 @@ if (snow > 0) {
 Evap.depth.d <- max(Evap.depth.d,0)
 
 #The effect of cover on evaporation
-
+if (cover > 0) {
+  
+}

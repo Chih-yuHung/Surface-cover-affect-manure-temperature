@@ -15,6 +15,12 @@ for (i in 1:d.length) {
   cc <- min(Envir.daily$cloud[i],1) #cloud clover
   precip.d <- (rain[i] + melt.act[i])/100
   
+  #Cover effect on environmental conditions
+  q.net.rad <- q.net.rad * (1-cover) #Assume cover is a percent and ignore solar angle
+  wind <- wind * (1-cover)           #Assume cover is a percent and ignore solar angle
+  wind.v <- wind.v * (1-cover)       #Assume cover is a percent and ignore solar angle
+  precip.d <- precip.d * (1-cover)   #Assume cover is a percent and ignore solar angle
+  
   #Add snow cover 
   source("3.2. Alpha.s_adjustment.R",echo = F)
   snow <- snow.p[i]

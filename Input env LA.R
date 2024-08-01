@@ -1,5 +1,4 @@
-library(tidyverse); library(lubridate)
-library(openxlsx2)
+library(tidyverse);library(lubridate);library(openxlsx2)
 
 air_temp_LA <- read.csv("Input/Air temp_LA.csv")
 LA_env <- air_temp_LA %>%
@@ -30,6 +29,7 @@ LA_env <- merge(LA_env, rad.max1, by = "MonthDay")
 
 #Determine cloud cover and SR
 LA_env$cloud<-ifelse(LA_env$SR<LA_env$Srmax,((1-LA_env$SR/LA_env$Srmax)/0.72)^(1/3.2),1)
+LA_env$cloud<-ifelse(LA_env$cloud<1,((1-LA_env$SR/LA_env$Srmax)/0.72)^(1/3.2),1)
 LA_env <- LA_env %>%
   mutate(SR = Srmax * cloud, SR = round(SR, digits = 1)) %>%
   mutate(cloud = round(cloud, digits = 1))
@@ -42,13 +42,13 @@ weather <- weather %>%
   filter(between(Date, as.Date('2020-09-11'), as.Date('2021-08-31')))
 weather$Time <- as.POSIXct(strptime(weather$Time, "%H:%M:%S"))
 weather$Hour <- hour(weather$Time)
-RH <- weather %>%
+RH_LA <- weather %>%
   filter(Hour == 6 | Hour == 15) %>%
   select(-Time) %>%
   pivot_wider(names_from = Hour,
               values_from = RH)
-colnames(RH) <- c("Date", "RH.6", "RH.15")
-LA_env <- merge(LA_env, RH, by = "Date")
+colnames(RH_LA) <- c("Date", "RH.6", "RH.15")
+LA_env <- merge(LA_env, RH_LA, by = "Date")
 
 #Add Date ID to the input
 Date.ID<-as.numeric(as.Date(0:354,origin="2020-09-11"),by="days")
