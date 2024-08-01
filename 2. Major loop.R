@@ -16,7 +16,6 @@ for (i in 1:d.length) {
   precip.d <- (rain[i] + melt.act[i])/100
   
   #Cover effect on environmental conditions
-  q.net.rad <- q.net.rad * (1-cover) #Assume cover is a percent and ignore solar angle
   wind <- wind * (1-cover)           #Assume cover is a percent and ignore solar angle
   wind.v <- wind.v * (1-cover)       #Assume cover is a percent and ignore solar angle
   precip.d <- precip.d * (1-cover)   #Assume cover is a percent and ignore solar angle
