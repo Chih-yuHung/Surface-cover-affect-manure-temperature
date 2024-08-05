@@ -61,6 +61,3 @@ if (mean(Final.M.Temp) >= (50 + 273.15) |
   cat(Final.M.Temp - 273.15)
   break
 }
-
-
-

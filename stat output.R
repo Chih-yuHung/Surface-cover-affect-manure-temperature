@@ -25,10 +25,10 @@ Spring.obs <- obs[80 <= obs$DOY & obs$DOY <= 171,]
 Summer.obs <- obs[172 <= obs$DOY & obs$DOY <= 265,]
 Fall.obs   <- obs[266 <= obs$DOY & obs$DOY <= 355,]
 Winter.obs <- rbind(obs[356 <= obs$DOY,],
-                          obs[obs$DOY <= 79,])
+                    obs[obs$DOY <= 79,])
 obs.y      <- list(obs[1:obs.n,], 
-                         Spring.obs, Summer.obs
-                         ,Fall.obs, Winter.obs)
+                   Spring.obs, Summer.obs
+                   ,Fall.obs, Winter.obs)
 #Avg. temp for Table S2
 obs.avg <- data.frame(temp0.5 = rep(0,5),
                       temp1.5 = rep(0,5),
@@ -38,8 +38,8 @@ obs.avg <- data.frame(temp0.5 = rep(0,5),
                                     "summer","fall",
                                     "winter"))
 for (i in 1:5) {
-obs.avg[i,1:3] <- round(colMeans(obs.y[[i]][,6:8]),1)
-obs.avg[i,4] <- round(mean(obs.y[[i]][,13]),1)
+  obs.avg[i,1:3] <- round(colMeans(obs.y[[i]][,6:8]),1)
+  obs.avg[i,4] <- round(mean(obs.y[[i]][,13]),1)
 }
 
 #The simulation results from original model 
@@ -47,10 +47,10 @@ Spring.sim.og <- sim.og[80 <= sim.og$DOY & sim.og$DOY <= 171,]
 Summer.sim.og <- sim.og[172 <= sim.og$DOY & sim.og$DOY <= 265,]
 Fall.sim.og   <- sim.og[266 <= sim.og$DOY & sim.og$DOY <= 355,]
 Winter.sim.og <- rbind(sim.og[356 <= sim.og$DOY,],
-                      sim.og[sim.og$DOY <= 79,])
+                       sim.og[sim.og$DOY <= 79,])
 sim.og.y <- list(sim.og[1:obs.n,],
-                       Spring.sim.og, Summer.sim.og
-                       ,Fall.sim.og, Winter.sim.og)
+                 Spring.sim.og, Summer.sim.og
+                 ,Fall.sim.og, Winter.sim.og)
 
 #Avg. temp for Table S2
 sim.og.avg <- data.frame(temp0.5 = rep(0,5),
@@ -58,8 +58,8 @@ sim.og.avg <- data.frame(temp0.5 = rep(0,5),
                          temp2.5 = rep(0,5),
                          tempavg = rep(0,5),
                          row.names = c("year","spring",
-                                    "summer","fall",
-                                    "winter"))
+                                       "summer","fall",
+                                       "winter"))
 for (i in 1:5) {
   sim.og.avg[i,1:3] <- round(colMeans(sim.og.y[[i]][,13:15]),1)
   sim.og.avg[i,4] <- round(mean(sim.og.y[[i]][,6]),1)
@@ -71,10 +71,10 @@ Spring.sim <- sim.re[80 <= sim.re$DOY & sim.re$DOY <= 171,]
 Summer.sim <- sim.re[172 <= sim.re$DOY & sim.re$DOY <= 265,]
 Fall.sim   <- sim.re[266 <= sim.re$DOY & sim.re$DOY <= 355,]
 Winter.sim <- rbind(sim.re[356 <= sim.re$DOY,],
-                      sim.re[sim.re$DOY <= 79,])
+                    sim.re[sim.re$DOY <= 79,])
 sim.re.y <- list(sim.re[1:obs.n,], 
-                    Spring.sim, Summer.sim
-                    ,Fall.sim, Winter.sim)
+                 Spring.sim, Summer.sim
+                 ,Fall.sim, Winter.sim)
 
 #Avg. temp for Table S2
 sim.avg <- data.frame(temp0.5 = rep(0,5),
@@ -95,7 +95,7 @@ summary(obs$temp0.5) #VA:-0.8 to 20.3, OR:-0.4 to 21.4
 summary(obs$temp2.5) #VA:2.5 to 16.5, OR: 0.6 to 19.7
 summary(obs$temp.avg) #VA: 8.6, OR: 10.7
 mean(Summer.obs$temp.avg,na.rm=T) #Summer temperature VA:15.4, OR:17.2
-#This is adjust to obtian air temperature during study period only.
+#This is adjust to obtain air temperature during study period only.
 Spring.air <- Envir.obs[80 <= Envir.obs$DOY & Envir.obs$DOY <= 171,]
 mean((Spring.air$AirTmax1+Spring.air$AirTmin1)/2) #VA:5.4   OR:11.0
 Summer.air <- Envir.obs[172 <= Envir.obs$DOY & Envir.obs$DOY <= 265,]
@@ -109,17 +109,17 @@ mean((Envir.obs$AirTmax1+Envir.obs$AirTmin1)/2) #VA: 6.4 OR:8.3
 
 #A table for RMSE, d, R2, bias
 stat.avg <- data.frame(Depth = c("sample size",rep(c("Avg.","0.5 m","1.5 m", "2.5 m"),each = 4)),
-                      stat.name = c("",rep(c("RMSE","D","R2","Bias"), 4)),
-                      year.og = NA,year = NA,
-                      spring.og = NA,spring = NA,
-                      summer.og = NA,summer = NA,
-                      fall.og = NA,fall = NA,
-                      winter.og = NA,winter = NA,
-                      stringsAsFactors = FALSE
-                      )
+                       stat.name = c("",rep(c("RMSE","D","R2","Bias"), 4)),
+                       year.og = NA,year = NA,
+                       spring.og = NA,spring = NA,
+                       summer.og = NA,summer = NA,
+                       fall.og = NA,fall = NA,
+                       winter.og = NA,winter = NA,
+                       stringsAsFactors = FALSE
+)
 #the sample size
 for (i in 1:5) {
-stat.avg[1, c(2 * i + 1)] <- sum(!is.na(obs.y[[i]]$temp.avg)) 
+  stat.avg[1, c(2 * i + 1)] <- sum(!is.na(obs.y[[i]]$temp.avg)) 
 }
 
 #RMSE caculation only for the last year
@@ -139,13 +139,13 @@ D <- function(x,y){
 rsq <- function(x, y) {
   xy <- na.omit(cbind(x,y))
   round(cor(xy[,1], xy[,2]) ^ 2,2)
-  }
+}
 
 #average bias valeus
 bias <- function(x, y) {
   xy <- na.omit(cbind(x,y))
   round(sum(xy[,1] - xy[,2])/length(xy[,1]),2)
-  }
+}
 
 stat <- list(RMSE,D,rsq,bias)
 
@@ -153,17 +153,17 @@ stat <- list(RMSE,D,rsq,bias)
 for (i in 1:16) {
   for (j in 1:5) {
     if (i <= 4) {
-    stat.avg[i + 1,2*j + 1] <- stat[[i]](sim.og.y[[j]]$Temperature.C
-                          ,obs.y[[j]]$temp.avg)
+      stat.avg[i + 1,2*j + 1] <- stat[[i]](sim.og.y[[j]]$Temperature.C
+                                           ,obs.y[[j]]$temp.avg)
     } else if (4 < i & i <= 8) {
-    stat.avg[i + 1,2*j + 1] <- stat[[i - 4]](sim.og.y[[j]]$temp.05
-                                   ,obs.y[[j]]$temp0.5)  
+      stat.avg[i + 1,2*j + 1] <- stat[[i - 4]](sim.og.y[[j]]$temp.05
+                                               ,obs.y[[j]]$temp0.5)  
     } else if (8 < i & i <= 12) {
-    stat.avg[i + 1,2*j + 1] <- stat[[i - 8]](sim.og.y[[j]]$temp.15
-                                   ,obs.y[[j]]$temp1.5)  
+      stat.avg[i + 1,2*j + 1] <- stat[[i - 8]](sim.og.y[[j]]$temp.15
+                                               ,obs.y[[j]]$temp1.5)  
     } else {
-    stat.avg[i + 1,2*j + 1] <- stat[[i - 12]](sim.og.y[[j]]$temp.25
-                                   ,obs.y[[j]]$temp2.5)  
+      stat.avg[i + 1,2*j + 1] <- stat[[i - 12]](sim.og.y[[j]]$temp.25
+                                                ,obs.y[[j]]$temp2.5)  
     }
   }  
 }
@@ -173,16 +173,16 @@ for (i in 1:16) {
   for (j in 1:5) {
     if (i <= 4) {
       stat.avg[i + 1,2*j + 2] <- stat[[i]](sim.re.y[[j]]$Temperature.C
-                                   ,obs.y[[j]]$temp.avg)
+                                           ,obs.y[[j]]$temp.avg)
     } else if (4 < i & i <= 8) {
       stat.avg[i + 1,2*j + 2] <- stat[[i - 4]](sim.re.y[[j]]$temp.05
-                                     ,obs.y[[j]]$temp0.5)  
+                                               ,obs.y[[j]]$temp0.5)  
     } else if (8 < i & i <= 12) {
       stat.avg[i + 1,2*j + 2] <- stat[[i - 8]](sim.re.y[[j]]$temp.15
-                                     ,obs.y[[j]]$temp1.5)  
+                                               ,obs.y[[j]]$temp1.5)  
     } else {
       stat.avg[i + 1,2*j + 2] <- stat[[i - 12]](sim.re.y[[j]]$temp.25
-                                      ,obs.y[[j]]$temp2.5)  
+                                                ,obs.y[[j]]$temp2.5)  
     }
   }  
 }
@@ -190,9 +190,9 @@ for (i in 1:16) {
 #The table to show the improvement between shallow and deep manure depth
 #s means shallow < 50% depth, d means deep >= 50% depth, OG = original model, Mod = modified model
 stat.avg.depth <- data.frame(stat.name = c("sample size","RMSE","D","R2","Bias"),
-                       OG.s = c(1:5),Mod.s = c(1:5),
-                       OG.d = c(1:5),Mod.d = c(1:5),
-                       stringsAsFactors = FALSE
+                             OG.s = c(1:5),Mod.s = c(1:5),
+                             OG.d = c(1:5),Mod.d = c(1:5),
+                             stringsAsFactors = FALSE
 )
 
 H.50 <- 0.5 * Htank * 100 #convert 50% tank height to cm 
@@ -210,12 +210,12 @@ for (i in 1:4) {
   stat.avg.depth[i + 1,2] <- stat[[i]](sim.og.y[[1]]$Temperature.C[og.s]
                                        ,obs.y[[1]]$temp.avg[og.s])
   stat.avg.depth[i + 1,3] <- stat[[i]](sim.re.y[[1]]$Temperature.C[mod.s]
-                                   ,obs.y[[1]]$temp.avg[mod.s])
+                                       ,obs.y[[1]]$temp.avg[mod.s])
   stat.avg.depth[i + 1,4] <- stat[[i]](sim.og.y[[1]]$Temperature.C[og.d]
-                                  ,obs.y[[1]]$temp.avg[og.d]) 
+                                       ,obs.y[[1]]$temp.avg[og.d]) 
   stat.avg.depth[i + 1,5] <- stat[[i]](sim.re.y[[1]]$Temperature.C[mod.d]
-                                   ,obs.y[[1]]$temp.avg[mod.d]) 
-  }
+                                       ,obs.y[[1]]$temp.avg[mod.d]) 
+}
 
 
 # Summary for the results, part 2. Only output after all simulation is done. 
@@ -261,20 +261,20 @@ wb <- createWorkbook()
 sheet <- createSheet(wb, "pic")
 addPicture(manure.pic, sheet, startRow = 1, startColumn = 1)
 saveWorkbook(wb, file = paste(result,Location,"/stat/",Location,"_",
-test,".xlsx",sep = ""), password = NULL)
+                              test,".xlsx",sep = ""), password = NULL)
 write.xlsx(sim.og,
            file = paste(result,Location,"/stat/",Location,"_",
                         test,".xlsx",sep = ""),
            sheetName = "Output.og", row.names = F, append = TRUE)
 write.xlsx(sim.re,
-             file = paste(result,Location,"/stat/",Location,"_",
-                          test,".xlsx",sep = ""),
-             sheetName = "Output.re", row.names = F, append = TRUE)
+           file = paste(result,Location,"/stat/",Location,"_",
+                        test,".xlsx",sep = ""),
+           sheetName = "Output.re", row.names = F, append = TRUE)
 
 write.xlsx(format(stat.avg,digit = 2),
            file = paste(result,Location,"/stat/",Location,"_",
                         test,".xlsx",sep = ""),
-               sheetName = "overall stat", row.names = F, append = TRUE)
+           sheetName = "overall stat", row.names = F, append = TRUE)
 write.xlsx(format(stat.avg.depth,digit =2),
            file = paste(result,Location,"/stat/",Location,"_",
                         test,".xlsx",sep = ""),
