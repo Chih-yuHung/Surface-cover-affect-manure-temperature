@@ -95,7 +95,7 @@ summary(obs$temp0.5) #VA:-0.8 to 20.3, OR:-0.4 to 21.4
 summary(obs$temp2.5) #VA:2.5 to 16.5, OR: 0.6 to 19.7
 summary(obs$temp.avg) #VA: 8.6, OR: 10.7
 mean(Summer.obs$temp.avg,na.rm=T) #Summer temperature VA:15.4, OR:17.2
-#This is adjust to obtain air temperature during study period only.
+#This is adjust to obtian air temperature during study period only.
 Spring.air <- Envir.obs[80 <= Envir.obs$DOY & Envir.obs$DOY <= 171,]
 mean((Spring.air$AirTmax1+Spring.air$AirTmin1)/2) #VA:5.4   OR:11.0
 Summer.air <- Envir.obs[172 <= Envir.obs$DOY & Envir.obs$DOY <= 265,]
@@ -287,4 +287,3 @@ write.xlsx(parameters,
            file = paste(result,Location,"/stat/",Location,"_",
                         test,".xlsx",sep = ""),
            sheetName = "Parameters", row.names = F,append = TRUE, showNA = FALSE)
-

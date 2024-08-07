@@ -1,29 +1,28 @@
-library(devEMF);library(tidyverse);library(dplyr);library(hydroGOF) #NSE 
+library(devEMF); library(tidyverse); library(dplyr); library(hydroGOF) #NSE
 
 #Sweden project
 #To compare my simulation result to the measured data
 result <- "Results/"
 #output to an excel file
-Envir.daily <- read.csv(paste("input/daily env input_",Location,".csv",sep = ""),header = T)
+Envir.daily <- read.csv(paste("Input/",Location,"/daily env input_",Location,".csv",sep = ""),header = T)
 temp <- ((Envir.daily$AirTmax1 + Envir.daily$AirTmin1)/2)[731:1095] #Air Temp.avg
 
 #observed data
-obs <- read.csv(paste("Input/manure temp_",Location,".csv",sep = ""),header = T) 
-depth.m <- read.csv(paste("Input/manure temp_",Location,".csv",sep = ""),header = T)
+obs <- read.csv(paste("Input/",Location,"/manure temp_",Location,".csv",sep = ""),header = T) 
+depth.m <- read.csv(paste("Input/",Location,"/manure temp_",Location,".csv",sep = ""),header = T)
 
 #simulated data before calibration
-sim.og <- read.csv(paste(result,Location,"/original/",
+sim.og <- read.csv(paste(result,Location,"/comparison/",
                          Location,"_",test,".csv",sep = ""),header = T) 
 SR.og <- sim.og$total.radiation/12/277.77778
 SR.og.cum <- cumsum(SR.og)
 Eva.og.cum <- cumsum(sim.og$Evaporation.cm)
 #simulated data after calibration and modification
-sim.re <- read.csv(paste(result,Location,"/comparison/",
+sim.re <- read.csv(paste(result,Location,"/original/",
                          Location,"_",test,".csv",sep = ""),header = T)
 SR <- sim.re$total.radiation/12/277.77778
 SR.cum <- cumsum(SR)
 Eva.cum <- cumsum(sim.re$Evaporation.cm)
-sim.re$snow.depth[sim.re$snow.depth == 0] <- NA 
 #obtain removal days
 removal.a <- removal.start[1:4] - as.numeric(as.Date(start.date)) + 1
 
@@ -143,8 +142,7 @@ plotoutput <- function() {
   #B. Manure depth
   plot(sim.re$Depth.cm,type = "l",
        ylim = c(0,350),xaxt = 'n',
-       col = "black",
-       xlab = "",
+       col = "black",xlab = "",
        ylab = "", las = 2,
        cex = 3, cex.lab = 2.5, cex.axis = 2.5, font = 2 )
   points(depth.m[,1],

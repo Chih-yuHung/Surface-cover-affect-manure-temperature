@@ -18,11 +18,7 @@ for (i in (length(removal.start)/4 + 1):length(removal.start)) {
 }
 
 #Environmental input
-if(Location == "VAC"){
-  Envir.daily <- read.csv("Input/daily env input_VA.csv",header = T)
-} else {
-  Envir.daily <- read.csv(paste("Input/daily env input_",Location,".csv",sep = ""),header = T)
-}
+Envir.daily <- read.csv(paste("Input/",Location,"/daily env input_",Location,".csv",sep = ""),header = T)
 #To produce an extra year for balance soil temperature
 Envir.daily <- Envir.daily[c(1:365,1:1095),]
 d.length <- nrow(Envir.daily)
@@ -31,7 +27,6 @@ ini.M.Temp <- read.csv("Input/Initial M temp.csv",header = T)[,1]#change to vect
 
 #obtain snow accumulation, cm
 source("3.1. snow depth.R", echo = FALSE)
-
 
 mixing.day <- as.integer(parameters[1,7])
 mix.place <- parameters[2,7] #it's the pipe height from the bottom (m)
@@ -45,7 +40,7 @@ Tank.v <- Au*Htank             #Total tank volume, m3
 #Annual manure input
 M.storage <- parameters[1,10]  
 washout <- rep(parameters[2,10] * parameters[3,10] / 1000 / Au / 2,2) 
-#convert to depth m, the number in parameter is pig amount, 70 kg pig^-1,  
+#convert to depth m, the number in parameter is pig amount, 70 kg pig-1,  
 
 #a vector to know the daily manure input
 M.factor <- na.omit(parameters[,11])   #manure input adjust factor
@@ -53,20 +48,19 @@ f.day <- parameters[1,12]     #days in feed barn
 M.daily <- c()
 for (cycle in 1:length(M.factor)) {
   M.daily.temp <- c(rep(M.storage*M.factor[cycle]/365/Au,f.day),washout,0)
-  M.daily <- c(M.daily,M.daily.temp) 
-  }
+  M.daily <- c(M.daily,M.daily.temp)
+}
 if (length(M.daily) < 365) {
   M.daily <- rep(M.daily,2)
-  }
- M.daily <- rep(M.daily[1:365],4)
- 
+}
+M.daily <- rep(M.daily[1:365],4)
+
 Freeboard <- parameters[1,13]   #freeboard, m
 sludge <- parameters[1,14]      #m
 
 #Manure depth
 M.depth <- parameters[1,15]     #This is the initial manure depth, m,
 removal.depth <- rep(na.omit(parameters[,16])/Au,3) #the depth to be removed from tank
-
 
 #Manure properties
 Total.solid <- parameters[1,17]  #It barely influences the manure temperature 
@@ -86,27 +80,28 @@ epsilon <- parameters[1,24]     #emissivity
 
 #Soil temperature properties 
 den.s <- parameters[1,25]   #Soil density, kg/m3, B41,Saturated Clay = 2000,
-                            #Dry clay = 1600,Saturated sand = 2000
+#Dry clay = 1600,Saturated sand = 2000
 ks <- parameters[1,26]      #soil thermal conductivity,W/mk,
-                            #Saturated Clay = 1.58, Dry clay = 0.25, 
-                            #Saturated sand = 2.2,Dry sand = 0.3,Oke, 1988
+#Saturated Clay = 1.58, Dry clay = 0.25, 
+#Saturated sand = 2.2,Dry sand = 0.3,Oke, 1988
 annualT.K <- annualT + 273.15                                   #soil temp at K
 ini.S.Temp <- read.csv("Input/Initial S Temp.csv",header = T)   
 ini.S.Temp[300,1] <- annualT.K
 ini.S.Temp <- na_interpolation(ini.S.Temp,option = "linear")#initial soil temp was assumed to annual air
 ini.S.Temp <- as.vector(ini.S.Temp[1:300,])
 Cp.s <- parameters[1,27]      #specific heat of soil, J/(kgK),
-                              #Saturated Clay = 1550,Dry clay = 890
-                              #Saturated sand = 1480, Dry sand = 800, Oke, 1988
+#Saturated Clay = 1550,Dry clay = 890
+#Saturated sand = 1480, Dry sand = 800, Oke, 1988
 
 #Air constant
 ka <- parameters[1,28]                #air thermal conductivity, W/(mK), 
-                                      #it's sensitive in summer only; if higher -> lower manure temp
+#it's sensitive in summer only; if higher -> lower manure temp
 Teten.H2Oa <- parameters[1,29]        # kPa
 Teten.H2Ob <- parameters[2,29]        # unitless
 Teten.H2Oc <- parameters[3,29]        # degree C
 Teten.Iceb <- parameters[4,29]        # unitless
 Teten.Icec <- parameters[5,29]        # degree C
+
 #Water constant
 f.point <- parameters[1,30]  #freezing point
 t.point <- parameters[2,30]  #thawing point
@@ -116,4 +111,3 @@ cover <- parameters[1, 32] #the percentage of cover
 if(cover > 1) {
   stop("Cover is larger than 100%")
 }
-

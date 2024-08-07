@@ -20,13 +20,13 @@ for (i in 1:d.length) {
   wind.v <- wind.v * (1-cover)       #Assume cover is a percent and ignore solar angle
   precip.d <- precip.d * (1-cover)   #Assume cover is a percent and ignore solar angle
   
-  #Add snow cover 
-  source("3.2. Alpha.s_adjustment.R",echo = F)
+  #Add snow cover
+  source("3.2. Alpha.s_adjustment.R",echo = F) 
   snow <- snow.p[i]
-   
+  
   RH6 <- Envir.daily$RH.6[i]
   RH15 <- Envir.daily$RH.15[i]
-
+  
   #To calculate manure volume, encoding to be change if use mac
   source("5. Manure volume.R",echo = F)
   #To calculate solar radiation, soil temp, and manure temp at 300 sec steps.
@@ -39,32 +39,27 @@ for (i in 1:d.length) {
   #retrieve manure temperature at 0.5m, 1.5m and 2.5 m
   source("7.1 temp at three depths.R",echo = F)
   
-
+  
   #Write the results
   Output[i,6:17] <- c(Avg.M.temp.d,M.depth*100,M.volume.current,
                       Evap.depth.d*100,precip.d*100,sum(q.net.rad),snow,
                       M.temp.depth,In.M.temp,alpha.s)
   print(paste("Sequence",i,"And Manure temp",Avg.M.temp.d))
-
-  # enthalpy will change drastically during removal duration and on the first day after removal
-  source("5.1. Manure volume removal.R",echo = F) 
+  
+  #Enthalpy will change drastically during removal duration and on the first day after removal
+  source("5.1. Manure volume removal.R",echo = F)
   
   #Save the new temperatures
   ini.M.Temp <- Final.M.Temp
   ini.S.Temp <- S.Temp[,288]
 }
-
 endtime <- Sys.time()
 print(endtime - starttime)
 
-#dump the first year which is used to stablize the model. 
+#dump the first year which is used to stabilize the model.
 Output <- Output[(d.length - 364):d.length,]
 result <- "Results/"
+
+#Output to an excel file
 write.csv(Output,paste(result,Location,"/original/"
                        ,Location,"_",test,".csv",sep = ""),row.names = FALSE)
-
-
-
-#output to an excel file
-write.csv(Output,paste("Output/",Location,"/",
-                       Location,"_",test,".csv",sep = ""),row.names = FALSE)
