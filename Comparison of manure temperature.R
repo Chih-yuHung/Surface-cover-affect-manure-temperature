@@ -26,12 +26,6 @@ Comparison.temp <- Comparison.temp %>%
                         'Diff.0.5', 'Diff.1.5', 'Diff.2.5'),
                names_to = 'Tank',
                values_to = 'Temperature')
-Depth.0.5 <- Comparison.temp %>%
-  filter(Tank == 'VA.Temp.0.5' | Tank == 'VAC.Temp.0.5' | Tank == 'Diff.0.5')
-Depth.0.5$Tank[Depth.0.5$Tank == 'VA.Temp.0.5'] <- 'No cover'
-Depth.0.5$Tank[Depth.0.5$Tank == 'VAC.Temp.0.5'] <- 'Cover'
-Depth.0.5$Tank[Depth.0.5$Tank == 'Diff.0.5'] <- 'Difference'
-
 
 Depth.0.5 <- Comparison.temp %>%
   filter(Tank == 'VA.Temp.0.5' | Tank == 'VAC.Temp.0.5' | Tank == 'Diff.0.5')
@@ -86,96 +80,50 @@ Depth.2.5.n$Tank[Depth.2.5.n$Tank == 'Diff.2.5'] <- 'Difference'
 
 
 #Paired t-test
-#Depth 0.5m
+#Cover
 t.test.0.5.c <- Depth.0.5.c %>%
   pivot_wider(names_from = Tank, values_from = Temperature)
 t.test(t.test.0.5.c$`No cover`, t.test.0.5.c$Cover,
        paired = TRUE, conf.level = 0.95, alternative = "less") #During cover at 0.5 m
-t.test.0.5.spring <- t.test.0.5 %>%
-  filter(t.test.0.5$Season == "Spring")
-t.test(t.test.0.5.spring$`No cover`, t.test.0.5.spring$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Spring
-t.test.0.5.summer <- t.test.0.5 %>%
-  filter(t.test.0.5$Season == "Summer")
-t.test(t.test.0.5.summer$`No cover`, t.test.0.5.summer$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Summer
-t.test.0.5.fall <- t.test.0.5 %>%
-  filter(t.test.0.5$Season == "Fall")
-t.test(t.test.0.5.fall$`No cover`, t.test.0.5.fall$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Fall
-t.test.0.5.winter <- t.test.0.5 %>%
-  filter(t.test.0.5$Season == "Winter")
-t.test(t.test.0.5.winter$`No cover`, t.test.0.5.winter$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Winter
 
-#Depth 1.5m
-t.test.1.5 <- Depth.1.5 %>%
+t.test.1.5.c <- Depth.1.5.c %>%
   pivot_wider(names_from = Tank, values_from = Temperature)
-t.test(t.test.1.5$`No cover`, t.test.1.5$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Year
-t.test.1.5.spring <- t.test.1.5 %>%
-  filter(t.test.1.5$Season == "Spring")
-t.test(t.test.1.5.spring$`No cover`, t.test.1.5.spring$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Spring
-t.test.1.5.summer <- t.test.1.5 %>%
-  filter(t.test.1.5$Season == "Summer")
-t.test(t.test.1.5.summer$`No cover`, t.test.1.5.summer$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Summer
-t.test.1.5.fall <- t.test.1.5 %>%
-  filter(t.test.1.5$Season == "Fall")
-t.test(t.test.1.5.fall$`No cover`, t.test.1.5.fall$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Fall
-t.test.1.5.winter <- t.test.1.5 %>%
-  filter(t.test.1.5$Season == "Winter")
-t.test(t.test.1.5.winter$`No cover`, t.test.1.5.winter$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Winter
+t.test(t.test.1.5.c$`No cover`, t.test.1.5.c$Cover,
+       paired = TRUE, conf.level = 0.95, alternative = "less") #During cover at 1.5 m
 
-#Depth 2.5 m
-t.test.2.5 <- Depth.2.5 %>%
+t.test.2.5.c <- Depth.2.5.c %>%
   pivot_wider(names_from = Tank, values_from = Temperature)
-t.test(t.test.2.5$`No cover`, t.test.2.5$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Year
-t.test.2.5.spring <- t.test.2.5 %>%
-  filter(t.test.2.5$Season == "Spring")
-t.test(t.test.2.5.spring$`No cover`, t.test.2.5.spring$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Spring
-t.test.2.5.summer <- t.test.2.5 %>%
-  filter(t.test.2.5$Season == "Summer")
-t.test(t.test.2.5.summer$`No cover`, t.test.2.5.summer$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Summer
-t.test.2.5.fall <- t.test.2.5 %>%
-  filter(t.test.2.5$Season == "Fall")
-t.test(t.test.2.5.fall$`No cover`, t.test.2.5.fall$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Fall
-t.test.2.5.winter <- t.test.2.5 %>%
-  filter(t.test.2.5$Season == "Winter")
-t.test(t.test.2.5.winter$`No cover`, t.test.2.5.winter$Cover, 
-       paired = TRUE,
-       conf.level = 0.95) #Winter
+t.test(t.test.2.5.c$`No cover`, t.test.2.5.c$Cover,
+       paired = TRUE, conf.level = 0.95, alternative = "less") #During cover at 2.5 m
+
+#No cover
+t.test.0.5.n <- Depth.0.5.n %>%
+  pivot_wider(names_from = Tank, values_from = Temperature)
+t.test(t.test.0.5.n$`No cover`, t.test.0.5.n$Cover,
+       paired = TRUE, conf.level = 0.95, alternative = "less") #During cover at 0.5 m
+
+t.test.1.5.n <- Depth.1.5.n %>%
+  pivot_wider(names_from = Tank, values_from = Temperature)
+t.test(t.test.1.5.n$`No cover`, t.test.1.5.n$Cover,
+       paired = TRUE, conf.level = 0.95, alternative = "less") #During cover at 1.5 m
+
+t.test.2.5.n <- Depth.2.5.n %>%
+  pivot_wider(names_from = Tank, values_from = Temperature)
+t.test(t.test.2.5.n$`No cover`, t.test.2.5.n$Cover,
+       paired = TRUE, conf.level = 0.95, alternative = "less") #During cover at 2.5 m
 
 
 
 #Graph
+date_range <- which(Depth.0.5$Date %in% as.Date(c("2020-06-18","2020-11-10")))
+
 Comparison.0.5 <- ggplot(data = Depth.0.5,
                            aes(x = Date, 
                                y = Temperature,
                                color = Tank)) +
   geom_line(lwd = 1.1) +
   labs(x = "Date", y = "Temperature (°C)", title = "Manure, 0.5 m") +
-  scale_color_manual(values = c('No cover' = "#fcab42", 'Cover' = "#42bd42")) +
+  scale_color_manual(values = c('No cover' = "#fcab42", 'Cover' = "#42bd42", 'Difference' = "grey53")) +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5),
         legend.position = c(0.9, 0.95),
@@ -185,10 +133,13 @@ Comparison.0.5 <- ggplot(data = Depth.0.5,
         axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12),
         axis.line = element_line(color = "black")) +
-  scale_y_continuous(limits = c(-10, 21), 
-                     breaks = seq(-10, 21, by = 4),
+  scale_y_continuous(limits = c(-6, 20), 
+                     breaks = seq(-6, 20, by = 4),
                      expand = c(0, 0)) +
-  geom_vline(xintercept = c('2020-06-18','2020-11-10'),
+  geom_hline(yintercept = 0,
+             lwd = 1.1,
+             color = "grey") +
+  geom_vline(xintercept = as.numeric(Depth.0.5$Date[date_range]),
              lwd = 1.1,
              color = "grey") 
 Comparison.0.5
@@ -199,7 +150,7 @@ Comparison.1.5 <- ggplot(data = Depth.1.5,
                              color = Tank)) +
   geom_line(lwd = 1.1) +
   labs(x = "Date", y = "Temperature (°C)", title = "Manure, 1.5 m") +
-  scale_color_manual(values = c('No cover' = "#fcab42", 'Cover' = "#42bd42")) +
+  scale_color_manual(values = c('No cover' = "#fcab42", 'Cover' = "#42bd42", 'Difference' = "grey53")) +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5),
         legend.position = "none",
@@ -207,9 +158,15 @@ Comparison.1.5 <- ggplot(data = Depth.1.5,
         axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12),
         axis.line = element_line(color = "black")) +
-  scale_y_continuous(limits = c(-10, 21), 
-                     breaks = seq(-10, 21, by = 4),
-                     expand = c(0, 0))
+  scale_y_continuous(limits = c(-6, 20), 
+                     breaks = seq(-6, 20, by = 4),
+                     expand = c(0, 0)) +
+  geom_hline(yintercept = 0,
+             lwd = 1.1,
+             color = "grey") +
+  geom_vline(xintercept = as.numeric(Depth.0.5$Date[date_range]),
+             lwd = 1.1,
+             color = "grey") 
 Comparison.1.5
 
 Comparison.2.5 <- ggplot(data = Depth.2.5,
@@ -218,7 +175,7 @@ Comparison.2.5 <- ggplot(data = Depth.2.5,
                              color = Tank)) +
   geom_line(lwd = 1.1) +
   labs(x = "Date", y = "Temperature (°C)", title = "Manure, 2.5 m") +
-  scale_color_manual(values = c('No cover' = "#fcab42", 'Cover' = "#42bd42")) +
+  scale_color_manual(values = c('No cover' = "#fcab42", 'Cover' = "#42bd42", 'Difference' = "grey53")) +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5),
         legend.position = "none",
@@ -226,9 +183,15 @@ Comparison.2.5 <- ggplot(data = Depth.2.5,
         axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12),
         axis.line = element_line(color = "black")) +
-  scale_y_continuous(limits = c(-10, 21), 
-                     breaks = seq(-10, 21, by = 4),
-                     expand = c(0, 0))
+  scale_y_continuous(limits = c(-6, 20), 
+                     breaks = seq(-6, 20, by = 4),
+                     expand = c(0, 0)) +
+  geom_hline(yintercept = 0,
+             lwd = 1.1,
+             color = "grey") +
+  geom_vline(xintercept = as.numeric(Depth.0.5$Date[date_range]),
+             lwd = 1.1,
+             color = "grey") 
 Comparison.2.5
 
 ggsave("Results/Temperature comparison between cover and no cover.png",
@@ -236,4 +199,3 @@ ggsave("Results/Temperature comparison between cover and no cover.png",
                  ncol = 1, nrow = 3),
        width = 15, height = 24, units = "cm",
        dpi = 300)
-

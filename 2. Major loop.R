@@ -18,7 +18,7 @@ for (i in 1:d.length) {
   #Cover effect on environmental conditions
 #  wind <- wind * (1-cover)           #Assume cover is a percent 
 #  wind.v <- wind.v * (1-cover)       #Assume cover is a percent 
-#  precip.d <- precip.d * (1-cover)   #Assume cover is a percent 
+#  precip.d <- precip.d * (1-cover)   #Assume cover is a percent
   
   #Add snow cover
   source("3.2. Alpha.s_adjustment.R",echo = F) 
