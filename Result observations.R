@@ -115,6 +115,9 @@ create_weekly_plot <- function(data, y_col, title) {
 }
 
 # Create the plots using the function
+VA.graph.weekly.air <- create_weekly_plot(VA.weekly.0.5, "Air", "Air temperature")
+LA.graph.weekly.air <- create_weekly_plot(LA.weekly.0.5, "Air", "Air temperature")
+
 VA.graph.weekly.0.5 <- create_weekly_plot(VA.weekly.0.5, "Weekly.average.0.5", "VA Graph Weekly 0.5")
 VA.graph.weekly.1.5 <- create_weekly_plot(VA.weekly.1.5, "Weekly.average.1.5", "VA Graph Weekly 1.5")
 VA.graph.weekly.2.5 <- create_weekly_plot(VA.weekly.2.5, "Weekly.average.2.5", "VA Graph Weekly 2.5")
@@ -126,6 +129,9 @@ VAC.graph.weekly.2.5 <- create_weekly_plot(VAC.weekly.2.5, "Weekly.average.2.5",
 LA.graph.weekly.0.5 <- create_weekly_plot(LA.weekly.0.5, "Weekly.average.0.5", "LA Graph Weekly 0.5")
 LA.graph.weekly.1.5 <- create_weekly_plot(LA.weekly.1.5, "Weekly.average.1.5", "LA Graph Weekly 1.5")
 LA.graph.weekly.2.5 <- create_weekly_plot(LA.weekly.2.5, "Weekly.average.2.5", "LA Graph Weekly 2.5")
+
+VA.graph.weekly.air
+LA.graph.weekly.air
 
 VA.graph.weekly.0.5
 VA.graph.weekly.1.5
@@ -235,6 +241,13 @@ LA.graph.warming.2.5
 
 
 # Save graphs
+ggsave("Results/Temperature_observations_air_VA.png", VA.graph.weekly.air, 
+       width = 20, height = 12, units = "cm", dpi = 300)
+ggsave("Results/Temperature_observations_air_LA.png", LA.graph.weekly.air, 
+       width = 20, height = 12, units = "cm", dpi = 300)
+
+
+
 ggsave("Results/Temperature_observations_VA_0_5.png", 
        ggarrange(VA.graph.weekly.0.5, ggarrange(VA.graph.cooling.0.5, VA.graph.warming.0.5, 
                                                 ncol = 2, nrow = 1), 
